@@ -20,7 +20,7 @@ class ArtistRepository:
         rows = self._connection.execute(
             'SELECT * from artists WHERE id = %s', [artist_id])
         row = rows[0]
-        return Artist(row["id"], row["name"], row["genre"])
+        return [Artist(row["id"], row["name"], row["genre"])]
 
     # Create a new artist
     # Do you want to get its id back? Look into RETURNING id;

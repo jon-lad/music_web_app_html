@@ -28,7 +28,7 @@ def test_get_single_record(db_connection):
     repository = ArtistRepository(db_connection)
 
     artist = repository.find(3)
-    assert artist == Artist(3, "Taylor Swift", "Pop")
+    assert artist == [Artist(3, "Taylor Swift", "Pop")]
 
 """
 When we call ArtistRepository#create

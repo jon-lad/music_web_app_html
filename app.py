@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, render_template
 from lib.database_connection import get_flask_database_connection
 from lib.album_repository import AlbumRepository
 from lib.album import Album
@@ -15,9 +15,16 @@ app = Flask(__name__)
 def all_albums():
     connection = get_flask_database_connection(app)
     album_repository = AlbumRepository(connection)
-    albums = album_repository.all()
-    album_strings = map(lambda x: str(x), albums)
-    return ",\n".join(album_strings)
+    album_list = album_repository.all()
+    return render_template('albums.html', albums=album_list)
+
+@app.route("/albums/<id>")
+def selected_album(id):
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    album = album_repository.find(id)
+    return render_template('albums.html', albums=album)
+
 
 @app.route("/albums", methods=["POST"])
 def create_album():
@@ -50,6 +57,7 @@ def create_artist():
 
     artist_repository.create(Artist(None, request.form["name"], request.form["genre"]))
     return "Artist added."
+
 
 
 # These lines start the server if you run this file directly

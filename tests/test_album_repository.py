@@ -37,7 +37,7 @@ def test_calling_find_returns_album_with_id(db_connection):
 
     actual = album_repository.find(7)
 
-    expected = Album(7, 'Folklore', 2020, 3)
+    expected = [Album(7, 'Folklore', 2020, 3)]
 
     assert actual == expected
 
