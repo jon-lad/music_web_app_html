@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}New Album{% endblock %}
+
+{% block content %}
+
+  <h1>Add a new album</h1>
+  
+  <form acction="/albums" method="POST">
+    {% if errors %}
+      <div class="t_errors">
+        Your form contained errors: {{errors}}
+      </div>
+    {% endif %}
+  </form>
+
+  <form action="/albums" method="POST">
+    <p>
+      <label for="title">Title</label>
+      <br>
+      <input type="text" name="title" id="title">
+    </p>
+
+    <p> 
+      <label for="release_year">Release Year</label>
+      <br>
+      <input type="text" name="release_year" id="release_year">
+    </p>
+
+    <p>
+      <label for="artist">Artist</label>
+      <br>
+      <select name="artist" id="artist">
+        {% for artist in artists %}
+          <option value="{{artist.id}}"">{{artist.name}}</option> 
+        {% endfor %}
+      </select>
+    </p>
+
+    <p>
+      <input type="submit" value="Add album">
+    </p>
+  </form>
+  <p>
+      Dont see the artist in the list?<br>
+      <a href="/artists/new">You can add them here.</a>
+    </p>
+  <p>
+    <a href="/albums">Go back to list of albums</a>
+  </p>
+
+{% endblock %}

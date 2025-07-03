@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}New Artist{% endblock %}
+
+{% block content %}
+
+  <h1>Add a new artist</h1>
+  
+  <form acction="/artists" method="POST">
+    {% if errors %}
+      <div class="t_errors">
+        Your form contained errors: {{errors}}
+      </div>
+    {% endif %}
+  </form>
+
+  <form action="/artists" method="POST">
+    <p>
+      <label for="title">Title</label>
+      <br>
+      <input type="text" name="title" id="title">
+    </p>
+
+    <p> 
+      <label for="genre">Genre</label>
+      <br>
+      <input type="text" name="genre" id="genre">
+    </p>
+
+    <p>
+      <input type="submit" value="Add artist">
+    </p>
+  </form>
+  <p>
+    <a href="/artists">Go back to list of artists</a>
+  </p>
+
+{% endblock %}

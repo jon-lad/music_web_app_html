@@ -10,3 +10,5 @@ class Album:
     
     def __repr__(self):
         return f"Album({self.id}, {self.title}, {self.release_year}, {self.artist_id})"
+    
+    

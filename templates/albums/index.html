@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Album Index{% endblock %}
+
+{% block content %}
+
+    <h1>Albums</h1>
+    <ul>
+      {% for album in albums %}
+          <li id="{{album.id}}">
+              <a href=/albums/{{album.id}}>{{album.title}}</a> 
+          </li>
+        </article>
+      {% endfor %}
+    </ul>
+
+    <a href="albums/new">Add new album</a>
+
+{% endblock %}

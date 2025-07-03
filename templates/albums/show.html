@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{album.title}}{% endblock %}
+
+{% block content %}
+    <body>
+        <h1>{{album.title}}</h1>
+        <p class="t_release_year">
+            Released: {{album.release_year}}
+        </p>
+        <p>
+            <a href="/albums">Go back to list of albums</a>
+        </p>
+
+{% endblock %}
