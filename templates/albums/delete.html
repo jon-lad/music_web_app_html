@@ -1,0 +1,29 @@
+% extends "base.html" %}
+
+{% block title %}New Album{% endblock %}
+
+{% block content %}
+
+  <h1>Add a new album</h1>
+
+  <form action="/albums/delete" method="POST">
+    <p>
+      <label for="album">Album</label>
+      <br>
+      <select name="album" id="album">
+        {% for album in albums %}
+          <option value="{{album.id}}">{{album.title}}</option> 
+        {% endfor %}
+      </select>
+    </p>
+
+    <p>
+      <input type="submit" value="Delete album">
+    </p>
+  </form>
+
+  <p>
+    <a href="/albums">Go back to list of albums</a>
+  </p>
+
+{% endblock %}

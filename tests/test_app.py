@@ -231,7 +231,7 @@ def test_attempt_to_make_an_album_with_errors(page, test_web_address, db_connect
 Try to add an album with inalild year
 Then the form shows some errors
 """
-def test_attempt_to_make_an_album_with_invalid_year(page, test_web_address, db_connection):
+def test_attempt_to_make_an_a_with_invalid_year(page, test_web_address, db_connection):
     page.set_default_timeout(1000)
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/albums")
@@ -245,3 +245,51 @@ def test_attempt_to_make_an_album_with_invalid_year(page, test_web_address, db_c
     expect(errors_tag).to_have_text(
         "Your form contained errors: Title can't be blank, "\
         "Invalid input for Release Year")
+    
+"""
+Test adding a new artist
+"""
+def test_adding_artist_takes_you_to_artist_page(page, test_web_address, db_connection):
+    page.set_default_timeout(1000)
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists")
+
+    page.click("text='Add new artist'")
+
+    page.fill("input[name='name']", "Test name")
+    page.fill("input[name='genre']", "Test genre")
+
+    page.click("text='Add artist'")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Test name")
+
+"""
+Try to add an artist without filling in the forms
+Then the form shows some errors
+"""
+def test_attempt_to_make_an_artist_with_errors(page, test_web_address, db_connection):
+    page.set_default_timeout(1000)
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists")
+
+    page.click("text='Add new artist'")
+    page.click("text='Add artist'")
+
+    errors_tag = page.locator(".t_errors")
+    expect(errors_tag).to_have_text(
+        "Your form contained errors: Title can't be blank, "\
+        "Genre can't be blank")
+    
+"""
+Test deleting an album removes it from the list
+"""
+def test_delete_an_album(page, test_web_address, db_connection):
+    page.set_default_timeout(1000)
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+
+    page.click("text='Delete album'")
+    page.select_option("select[name='album']", "Folklore")
+    page.click("text='Delete album'")
+    li_tag = page.locator("li")
+    expect(li_tag).to_have_count(11)

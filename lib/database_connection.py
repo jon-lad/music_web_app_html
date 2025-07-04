@@ -49,7 +49,7 @@ class DatabaseConnection:
                 result = None
             self.connection.commit()
             return result
-
+        
     CONNECTION_MESSAGE = '' \
         'DatabaseConnection.exec_params: Cannot run a SQL query as ' \
         'the connection to the database was never opened. Did you ' \

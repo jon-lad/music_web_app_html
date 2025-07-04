@@ -24,8 +24,10 @@ def all_albums():
 def selected_album(id):
     connection = get_flask_database_connection(app)
     album_repository = AlbumRepository(connection)
+    artist_repository = ArtistRepository(connection)
     album = album_repository.find(id)
-    return render_template('albums/show.html', album=album)
+    artist = artist_repository.find(album.artist_id).name
+    return render_template('albums/show.html', album=album, artist=artist)
 
 @app.route("/albums/new")
 def get_new_album():
@@ -75,7 +77,7 @@ def get_new_artist():
 def create_artist():
     connection = get_flask_database_connection(app)
     artist_repository = ArtistRepository(connection)
-    artist_data_validator = ArtistDataValidator(request.form["title"],
+    artist_data_validator = ArtistDataValidator(request.form["name"],
                                                 request.form["genre"])
     valid_data, errors = artist_data_validator.is_valid()
     if valid_data:
@@ -87,9 +89,25 @@ def create_artist():
 
     return redirect(f"/artists/{artist.id}")
 
+@app.route("/albums/delete")
+def get_delete():
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    albums = album_repository.all()
+    return render_template("albums/delete.html", albums=albums)
+
+
+@app.route("/albums/delete", methods=["POST"])
+def delete_album():
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    album_repository.delete(request.form["album"])
+
+    return redirect(f"/albums")
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
-
+    
